@@ -31,11 +31,8 @@ python manage.py runserver
 ```
 
 ### 3. Доступ к API
-
+- **Swagger UI**: http://localhost:8000/api/docs/
 - **API**: http://localhost:8000/api/
-- **Документация**: http://localhost:8000/api/ (Browsable API)
-
-## API Endpoints
 
 ### Вопросы
 - `GET /api/questions/` - список всех вопросов

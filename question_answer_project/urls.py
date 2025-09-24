@@ -16,7 +16,22 @@ Including another URLconf
 """
 
 from django.urls import path, include
+from django.shortcuts import redirect
+from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView, SpectacularRedocView
+
+def redirect_to_docs(request):
+    """Редирект с корневой страницы на Swagger документацию."""
+    return redirect('/api/docs/')
 
 urlpatterns = [
+    # Главная страница - редирект на Swagger
+    path("", redirect_to_docs, name='home'),
+    
+    # API endpoints
     path("api/", include("askme.urls")),
+    
+    # Swagger документация
+    path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
+    path('api/docs/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
+    path('api/redoc/', SpectacularRedocView.as_view(url_name='schema'), name='redoc'),
 ]

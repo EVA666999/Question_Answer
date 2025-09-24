@@ -9,12 +9,17 @@ class QuestionSerializer(serializers.ModelSerializer):
     
     Используется для создания и отображения вопросов.
     """
-    answers_count = serializers.SerializerMethodField()
+    answers_count = serializers.SerializerMethodField(help_text="Количество ответов на вопрос")
     
     class Meta:
         model = Question
         fields = ['id', 'text', 'created_at', 'answers_count']
         read_only_fields = ['id', 'created_at', 'answers_count']
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['text'].help_text = "Текст вопроса"
+        self.fields['created_at'].help_text = "Дата создания вопроса"
     
     def get_answers_count(self, obj: Question) -> int:
         """Возвращает количество ответов на вопрос."""
@@ -44,12 +49,19 @@ class AnswerSerializer(serializers.ModelSerializer):
     
     Используется для создания и отображения ответов.
     """
-    question_text = serializers.CharField(source='question.text', read_only=True)
+    question_text = serializers.CharField(source='question.text', read_only=True, help_text="Текст вопроса")
     
     class Meta:
         model = Answer
         fields = ['id', 'question', 'question_text', 'user_id', 'text', 'created_at']
         read_only_fields = ['id', 'created_at', 'question_text']
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['question'].help_text = "ID вопроса"
+        self.fields['user_id'].help_text = "UUID пользователя"
+        self.fields['text'].help_text = "Текст ответа"
+        self.fields['created_at'].help_text = "Дата создания ответа"
     
     def validate_question(self, value: Question) -> Question:
         """
@@ -78,6 +90,10 @@ class AnswerCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Answer
         fields = ['text']
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['text'].help_text = "Текст ответа"
     
     def validate_text(self, value: str) -> str:
         """
