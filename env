@@ -1,0 +1,15 @@
+# Настройки базы данных PostgreSQL
+DB_NAME=askme_db
+DB_USER=postgres
+DB_PASSWORD=Kohkau11999
+DB_HOST=localhost
+DB_PORT=5432
+
+# Настройки Django
+SECRET_KEY=django-insecure-&7j#bq35*@d5(f==4x)zkvw8ajdx47fuya0^ju@ut*1&_)t=-g
+DEBUG=True
+ALLOWED_HOSTS=localhost,127.0.0.1
+
+# Настройки языка и времени
+LANGUAGE_CODE=ru-ru
+TIME_ZONE=Europe/Moscow
