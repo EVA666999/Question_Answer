@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  # База данных PostgreSQL
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: askme_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: Kohkau11999
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Django приложение
+  web:
+    build: .
+    command: >
+      sh -c "python manage.py migrate &&
+             python manage.py runserver 0.0.0.0:8000"
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    environment:
+      - DEBUG=True
+      - DB_NAME=askme_db
+      - DB_USER=postgres
+      - DB_PASSWORD=Kohkau11999
+      - DB_HOST=db
+      - DB_PORT=5432
+      - SECRET_KEY=django-insecure-docker-secret-key-change-in-production
+      - ALLOWED_HOSTS=localhost,127.0.0.1,0.0.0.0
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  postgres_data:
