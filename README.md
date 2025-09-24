@@ -23,7 +23,7 @@ AskMe - это REST API для создания вопросов и ответо
 ```bash
 pip install -r requirements.txt
 ```
-- в файле env нужно вставить свою базу и пароль
+- в файле env нужно вставить свою базу и пароль я его оставил для удобства
 ```bash
 docker-compose -f docker-compose.yml up --build
 ```
